@@ -465,7 +465,7 @@ SM64_LIB_FN void sm64_mario_kill(int32_t marioId)
     gMarioState->health = 0xff;
 }
 
-SM64_LIB_FN void sm64_mario_interact_cap(int32_t marioId, uint32_t capFlag, uint16_t capTime, uint8_t playMusic)
+SM64_LIB_FN void sm64_mario_interact_cap(int32_t marioId, uint32_t capFlag, uint16_t capTime)
 {
     if( marioId >= s_mario_instance_pool.size || s_mario_instance_pool.objects[marioId] == NULL )
     {
@@ -476,7 +476,6 @@ SM64_LIB_FN void sm64_mario_interact_cap(int32_t marioId, uint32_t capFlag, uint
     struct GlobalState *globalState = ((struct MarioInstance *)s_mario_instance_pool.objects[ marioId ])->globalState;
     global_state_bind( globalState );
 
-    uint16_t capMusic = 0;
     if(gMarioState->action != ACT_GETTING_BLOWN && capFlag != 0)
     {
         gMarioState->flags &= ~MARIO_CAP_ON_HEAD & ~MARIO_CAP_IN_HAND;
@@ -491,13 +490,6 @@ SM64_LIB_FN void sm64_mario_interact_cap(int32_t marioId, uint32_t capFlag, uint
             set_mario_action(gMarioState, ACT_PUTTING_ON_CAP, 0);
         } else {
             gMarioState->flags |= MARIO_CAP_ON_HEAD;
-        }
-
-        play_sound(SOUND_MENU_STAR_SOUND, gMarioState->marioObj->header.gfx.cameraToObject);
-        play_sound(SOUND_MARIO_HERE_WE_GO, gMarioState->marioObj->header.gfx.cameraToObject);
-
-        if (playMusic != 0 && capMusic != 0) {
-            play_cap_music(capMusic);
         }
     }
 }
