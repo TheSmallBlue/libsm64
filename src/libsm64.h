@@ -49,6 +49,7 @@ struct SM64MarioState
     float velocity[3];
     float faceAngle;
     int16_t health;
+    uint32_t action;
 };
 
 struct SM64MarioGeometryBuffers
