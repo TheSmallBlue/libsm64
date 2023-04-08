@@ -407,20 +407,6 @@ SM64_LIB_FN void sm64_set_mario_water_level(int32_t marioId, signed int level)
     gMarioState->waterLevel = level;
 }
 
-SM64_LIB_FN void sm64_set_mario_gas_level(int32_t marioId, signed int level)
-{
-    if( marioId >= s_mario_instance_pool.size || s_mario_instance_pool.objects[marioId] == NULL )
-    {
-        DEBUG_PRINT("Tried to use non-existant Mario with ID: %d", marioId);
-        return;
-    }
-
-    struct GlobalState *globalState = ((struct MarioInstance *)s_mario_instance_pool.objects[ marioId ])->globalState;
-    global_state_bind( globalState );
-
-    gMarioState->gasLevel = level;
-}
-
 SM64_LIB_FN void sm64_set_mario_health(int32_t marioId, uint16_t health)
 {
     if( marioId >= s_mario_instance_pool.size || s_mario_instance_pool.objects[marioId] == NULL )
@@ -495,22 +481,6 @@ SM64_LIB_FN void sm64_mario_interact_cap(int32_t marioId, uint32_t capFlag, uint
     {
         gMarioState->flags &= ~MARIO_CAP_ON_HEAD & ~MARIO_CAP_IN_HAND;
         gMarioState->flags |= capFlag;
-
-        switch(capFlag)
-        {
-            case MARIO_VANISH_CAP:
-                if(capTime == 0) capTime = 600;
-                capMusic = SEQUENCE_ARGS(4, SEQ_EVENT_POWERUP);
-                break;
-            case MARIO_METAL_CAP:
-                if(capTime == 0) capTime = 600;
-                capMusic = SEQUENCE_ARGS(4, SEQ_EVENT_METAL_CAP);
-                break;
-            case MARIO_WING_CAP:
-                if(capTime == 0) capTime = 1800;
-                capMusic = SEQUENCE_ARGS(4, SEQ_EVENT_POWERUP);
-                break;
-        }
 
         if (capTime > gMarioState->capTimer) {
             gMarioState->capTimer = capTime;
