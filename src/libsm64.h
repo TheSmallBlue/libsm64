@@ -50,6 +50,9 @@ struct SM64MarioState
     float faceAngle;
     int16_t health;
     uint32_t action;
+    uint32_t flags;
+    uint32_t particleFlags;
+    int16_t invincTimer;
 };
 
 struct SM64MarioGeometryBuffers
